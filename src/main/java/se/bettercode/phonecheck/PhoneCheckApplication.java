@@ -16,8 +16,8 @@ import java.util.Scanner;
 public class PhoneCheckApplication {
 
   public static void main(String[] args) {
-    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    PrintStream out = new PrintStream(System.out);
+    final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    final PrintStream out = new PrintStream(System.out);
     main(in, out);
   }
 
@@ -25,7 +25,7 @@ public class PhoneCheckApplication {
    * Testable method
    */
   public static void main(BufferedReader in, PrintStream out) {
-    List<List<String>> listOfNumbersList = readInput(in);
+    final List<List<String>> listOfNumbersList = readInput(in);
     areValidNumbers(listOfNumbersList).forEach(out::println);
   }
 
