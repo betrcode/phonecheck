@@ -27,9 +27,7 @@ public class PhoneCheckApplication {
   public static void main(BufferedReader in, PrintStream out) {
     List<List<String>> listOfNumbersList = readInput(in);
     //printListOfLists(listOfNumbersList);
-    for (String result : areValidNumbers(listOfNumbersList)) {
-      out.println(result);
-    }
+    areValidNumbers(listOfNumbersList).forEach(out::println);
   }
 
   /**
