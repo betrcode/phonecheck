@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class PhoneCheckApplicationTest {
 
-  PhoneCheckApplication application = new PhoneCheckApplication();
-  ByteArrayOutputStream out = new ByteArrayOutputStream();
+  private final PhoneCheckApplication application = new PhoneCheckApplication();
+  private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
   @Before
   public void resetOutputStream() {
@@ -71,6 +71,18 @@ public class PhoneCheckApplicationTest {
         "676767\n" +
         "787877\n";
     runAndAssert(input, "YES\nYES\n");
+  }
+
+  @Test
+  public void allSetsShouldFail() {
+    String input = "2\n" +
+        "2\n" +
+        "112112\n" +
+        "112\n" +
+        "2\n" +
+        "111111\n" +
+        "1111112\n";
+    runAndAssert(input, "NO\nNO\n");
   }
 
   @Test
