@@ -3,10 +3,7 @@ package se.bettercode.phonecheck;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.io.StringReader;
+import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 
