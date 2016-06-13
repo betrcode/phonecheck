@@ -30,7 +30,7 @@ public class PhoneCheckApplicationTest {
         "121212\n" +
         "232323\n" +
         "343434\n";
-    runAndAssert(input, "TRUE");
+    runAndAssert(input, "YES\n");
   }
 
   @Test
@@ -40,7 +40,7 @@ public class PhoneCheckApplicationTest {
         "112112\n" +
         "112\n" +
         "343434\n";
-    runAndAssert(input, "FALSE");
+    runAndAssert(input, "NO\n");
   }
 
   @Test
@@ -55,7 +55,7 @@ public class PhoneCheckApplicationTest {
         "565656\n" +
         "676767\n" +
         "787877\n";
-    runAndAssert(input, "FALSE");
+    runAndAssert(input, "NO\nYES\n");
   }
 
   @Test
@@ -70,7 +70,7 @@ public class PhoneCheckApplicationTest {
         "565656\n" +
         "676767\n" +
         "787877\n";
-    runAndAssert(input, "TRUE");
+    runAndAssert(input, "YES\nYES\n");
   }
 
   @Test
@@ -86,7 +86,7 @@ public class PhoneCheckApplicationTest {
         "123\n" +
         "1\n" +
         "123\n";
-    runAndAssert(input, "TRUE");
+    runAndAssert(input, "YES\nYES\nYES\nYES\nYES\n");
   }
 
   private void runAndAssert(String input, String expectedResult) {

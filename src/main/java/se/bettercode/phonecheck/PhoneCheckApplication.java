@@ -27,8 +27,9 @@ public class PhoneCheckApplication {
   public static void main(BufferedReader in, PrintStream out) {
     List<List<String>> listOfNumbersList = readInput(in);
     //printListOfLists(listOfNumbersList);
-    boolean allAreValid = areValidNumbers(listOfNumbersList);
-    out.print(allAreValid ? "TRUE" : "FALSE");
+    for (String result : areValidNumbers(listOfNumbersList)) {
+      out.println(result);
+    }
   }
 
   /**
@@ -71,20 +72,23 @@ public class PhoneCheckApplication {
     return listOfLists;
   }
 
-  private static boolean areValidNumbers(List<List<String>> listList) {
-    boolean allAreValid = true;
+  private static List<String> areValidNumbers(List<List<String>> listList) {
+    String allAreValid;
+    List<String> isListValid = new ArrayList<>();
 
     for (List<String> phoneNumbers : listList) {
+      allAreValid = "YES";
       for (String phoneNumber : phoneNumbers) {
         for (String otherNumber : phoneNumbers) {
           if (!phoneNumber.equals(otherNumber) && otherNumber.startsWith(phoneNumber)) {
-            allAreValid = false;
+            allAreValid = "NO";
             break;
           }
         }
       }
+      isListValid.add(allAreValid);
     }
-    return allAreValid;
+    return isListValid;
   }
 
   /**
