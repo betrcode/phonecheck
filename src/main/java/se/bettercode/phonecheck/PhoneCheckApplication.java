@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -69,31 +70,40 @@ public class PhoneCheckApplication {
     return listOfLists;
   }
 
-  private static List<String> areValidNumbers(List<List<String>> listList) {
-    String allAreValid;
-    List<String> isListValid = new ArrayList<>();
+  private static List<String> areValidNumbers(List<List<String>> phoneNumbersLists) {
+    List<String> result = new ArrayList<>();
 
-    for (List<String> phoneNumbers : listList) {
-      allAreValid = "YES";
-      for (String phoneNumber : phoneNumbers) {
-        for (String otherNumber : phoneNumbers) {
-          if (!phoneNumber.equals(otherNumber) && otherNumber.startsWith(phoneNumber)) {
-            allAreValid = "NO";
-            break;
-          }
-        }
-      }
-      isListValid.add(allAreValid);
-    }
-    return isListValid;
+    //Each list of phone numbers can be validated in parallel
+    phoneNumbersLists.stream()
+        .parallel()
+        .map(PhoneCheckApplication::isListValid)
+        .forEachOrdered(result::add);
+
+    return result;
   }
 
   /**
-   * Can be used for debugging
+   * A list of phone numbers is valid if no number is a prefix of another number in the list.
    */
-  private static void printListOfLists(List<List<String>> listList) {
-    for (List<String> phoneNumbers : listList) {
-      phoneNumbers.forEach(System.out::println);
+  private static String isListValid(List<String> phoneNumbers) {
+    boolean allAreValid = true;
+
+    //Sort list to get numbers who prefix each other next to each other
+    //This way we only need to check the current number and the next number, instead of each number with all numbers
+    Collections.sort(phoneNumbers);
+
+    for (int i = 0; i < phoneNumbers.size() - 1; i++) {
+      if (areNumbersInvalid(phoneNumbers.get(i), phoneNumbers.get(i + 1))) {
+        allAreValid = false;
+        break;
+      }
     }
+
+    return allAreValid ? "YES" : "NO";
   }
+
+  private static boolean areNumbersInvalid(String phoneNumber, String otherNumber) {
+    return !phoneNumber.equals(otherNumber) && otherNumber.startsWith(phoneNumber);
+  }
+
 }

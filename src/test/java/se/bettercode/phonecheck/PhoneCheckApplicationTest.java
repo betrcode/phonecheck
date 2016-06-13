@@ -3,7 +3,14 @@ package se.bettercode.phonecheck;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,7 +53,7 @@ public class PhoneCheckApplicationTest {
         "3\n" +
         "112112\n" +
         "112\n" +
-        "343434\n" +
+        "113113\n" +
         "4\n" +
         "454545\n" +
         "565656\n" +
@@ -96,6 +103,48 @@ public class PhoneCheckApplicationTest {
         "1\n" +
         "123\n";
     runAndAssert(input, "YES\nYES\nYES\nYES\nYES\n");
+  }
+
+  @Test(timeout = 4000)
+  public void manyNumbersPerformWell() {
+    final int numberOfSets = 40;
+    final int numberOfPhoneNumbers = 10000;
+    final String input = getInputData(numberOfSets, numberOfPhoneNumbers);
+    final String expectedResult = getNAnswers(numberOfSets, "YES");
+    runAndAssert(input, expectedResult);
+  }
+
+  private String getInputData(int numberOfSets, int numberOfPhoneNumbers) {
+    StringBuilder inputBuilder = new StringBuilder();
+    inputBuilder.append(numberOfSets + "\n");
+    for (int i = 0; i < numberOfSets; i++) {
+      inputBuilder.append(numberOfPhoneNumbers + "\n");
+      for (String phoneNumber : getShuffledPhoneNumbers(numberOfPhoneNumbers)) {
+        inputBuilder.append(phoneNumber + "\n");
+      }
+    }
+    return inputBuilder.toString();
+  }
+
+  /**
+   * We want the order of phone numbers to be shuffled, so the list needs sorting afterwards.
+   */
+  private List<String> getShuffledPhoneNumbers(int numberOfPhoneNumbers) {
+    final int startingPhoneNumber = 200000;
+    List<String> phoneNumbers = new ArrayList<>();
+    for (int phoneNumber = startingPhoneNumber; phoneNumber < startingPhoneNumber + numberOfPhoneNumbers; phoneNumber++) {
+      phoneNumbers.add(Integer.toString(phoneNumber));
+    }
+    Collections.shuffle(phoneNumbers, new Random());
+    return phoneNumbers;
+  }
+
+  private String getNAnswers(int n, String answer) {
+    StringBuilder output = new StringBuilder();
+    for (int i = 0; i < n; i++) {
+      output.append(answer + "\n");
+    }
+    return output.toString();
   }
 
   private void runAndAssert(String input, String expectedResult) {
